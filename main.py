@@ -2,7 +2,7 @@ import sys
 import pygame
 
 SIZE = WIDTH, HEIGHT = 1280, 720
-IMAGE_PATH = './sc/'
+IMAGE_PATH = './pokemon_game/image/'
 green = 0, 0, 0
 game_background = green
 
@@ -11,10 +11,10 @@ game_background = green
 class Lead(object):
 
     def __init__(self):
-        self.images = [pygame.image.load(IMAGE_PATH + '1.png'),
-                       pygame.image.load(IMAGE_PATH + '2.png'),
-                       pygame.image.load(IMAGE_PATH + '3.png'),
-                       pygame.image.load(IMAGE_PATH + '4.png')]
+        self.images = [pygame.image.load(IMAGE_PATH + 'lead/u1.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/u2.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/u3.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/u4.png')]
 
         self.image_width, self.image_height = self.images[0].get_rect()[2:]
 
@@ -39,7 +39,7 @@ class Lead(object):
 class BackgroundImage(object):
 
     def __init__(self):
-        self.images = [pygame.image.load(IMAGE_PATH + 'game_bg.png')]
+        self.images = [pygame.image.load(IMAGE_PATH + 'background/game_bg.png')]
         self.image_width, self.image_height = self.images[0].get_rect()[2:]
 
         self.position_x = (WIDTH - self.image_width) / 2
