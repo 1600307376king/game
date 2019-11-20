@@ -65,7 +65,7 @@ while True:
     screen.fill(game_background)
     screen.blit(bgi.images[0], pos)
 
-    wt = lead.update_state(pos, screen, frame_number)
+    lead.update_state(pos, screen, frame_number)
 
     pygame.display.flip()
 
