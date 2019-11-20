@@ -11,10 +11,10 @@ game_background = green
 class Lead(object):
 
     def __init__(self):
-        self.images = [pygame.image.load(IMAGE_PATH + 'lead/u1.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/u2.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/u3.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/u4.png')]
+        self.images = [pygame.image.load(IMAGE_PATH + 'lead/9.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/10.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/11.png'),
+                       pygame.image.load(IMAGE_PATH + 'lead/12.png')]
 
         self.image_width, self.image_height = self.images[0].get_rect()[2:]
 
