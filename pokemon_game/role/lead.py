@@ -14,9 +14,10 @@ def change_direction(d):
 
 
 # 主角
-class Lead(object):
+class Lead(pygame.sprite.Sprite):
 
     def __init__(self):
+        pygame.sprite.Sprite.__init__(self)
         # 初始化图片名称列表并加载
 
         self.image_name_list = [str(i + 1) + '.png' for i in range(16)]
@@ -24,6 +25,7 @@ class Lead(object):
         self.images = [pygame.image.load(IMAGE_PATH + 'lead/' + j) for j in self.image_name_list]
 
         self.image_width, self.image_height = self.images[0].get_rect()[2:]
+
 
         # 设置角色初始坐标
         self.position_x = (WIDTH - self.image_width) / 2
@@ -39,12 +41,19 @@ class Lead(object):
         self.direction = 0  # 角色方向 0 -> 下 4 -> 左 8 -> 上 12 -> 右
         self.is_continued = 0  # 是否持续运动
 
+        # 精灵碰撞检测必写定义
+        self.rect = self.images[0].get_rect(left=self.position_x, top=self.position_y)
+
+
     def get_position(self, i=0):
         return self.images[i].get_rect(left=self.position_x, top=self.position_y)
 
-    def update_state(self, pos, screen, frame_number):
+    def update_state(self, screen, frame_number, pos, pos2, obstacle):
         pos.top = pos.top + change_direction(self.direction)[0] * self.walk_time_frequency * self.speed
         pos.left = pos.left + change_direction(self.direction)[1] * self.walk_time_frequency * self.speed
+        pos2.top = pos2.top + change_direction(self.direction)[0] * self.walk_time_frequency * self.speed
+        pos2.left = pos2.left + change_direction(self.direction)[1] * self.walk_time_frequency * self.speed
+
 
         # 角色停止运动 相关数值恢复到初始值
         if self.is_continued == 0:
@@ -70,6 +79,7 @@ class Lead(object):
             screen.blit(self.images[self.direction + self.image_frame], self.get_position())
         else:
             screen.blit(self.images[self.direction + 0], self.get_position())
+
 
 
 

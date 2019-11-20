@@ -2,6 +2,7 @@ import sys
 import pygame
 from pokemon_game.config import *
 from pokemon_game.role.lead import *
+from pokemon_game.role.obstacle import *
 
 
 # 背景
@@ -23,6 +24,8 @@ pygame.init()
 screen = pygame.display.set_mode(SIZE)  # 设置屏幕大小
 bgi = BackgroundImage()  # 创建背景对象
 pos = bgi.get_position()  # 背景矩形对象
+obstacle = Obstacle()
+pos2 = obstacle.get_position()
 lead = Lead()   # 创建主角对象
 clock = pygame.time.Clock()  # 创建时钟
 wt = 0  # 角色每步计时变量
@@ -62,10 +65,17 @@ while True:
     else:
         lead.is_continued = 0
 
+    if pygame.sprite.collide_rect(obstacle, lead):
+        print('碰撞')
+
+    obstacle.rect.top = pos2.top
+    obstacle.rect.left = pos2.left
+
     screen.fill(game_background)
     screen.blit(bgi.images[0], pos)
 
-    lead.update_state(pos, screen, frame_number)
+    obstacle.update_state(screen, pos2)
+    lead.update_state(screen, frame_number, pos, pos2, obstacle)
 
     pygame.display.flip()
 
