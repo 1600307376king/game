@@ -31,37 +31,36 @@ while True:
     clock.tick(60)  # 每秒60次
     frame_number += 1
     for event in pygame.event.get():
-        key_press = pygame.key.get_pressed()
+
         if event.type == pygame.QUIT:
             sys.exit()
 
         # 此判断角色是否走完一格
 
-        if wt == 0:
-            if event.type == pygame.KEYDOWN:
-                lead.walk_time_frequency = 1
-                lead.is_walk = True
-                # 判断是否按下
-                if event.key == pygame.K_DOWN:
-                    lead.direction = 0
-                elif event.key == pygame.K_LEFT:
-                    lead.direction = 4
-                elif event.key == pygame.K_UP:
-                    lead.direction = 8
-                elif event.key == pygame.K_RIGHT:
-                    lead.direction = 12
-
-                # 判断是否持续按压
-                if key_press[pygame.K_DOWN]:
-                    lead.is_continued = 1
-                elif key_press[pygame.K_LEFT]:
-                    lead.is_continued = 1
-                elif key_press[pygame.K_UP]:
-                    lead.is_continued = 1
-                elif key_press[pygame.K_RIGHT]:
-                    lead.is_continued = 1
-        else:
-            lead.is_continued = 0
+        if event.type == pygame.KEYDOWN:
+            lead.walk_time_frequency = 1
+            lead.is_walk = True
+            # 判断是否按下
+            if event.key == pygame.K_DOWN:
+                lead.direction = 0
+            elif event.key == pygame.K_LEFT:
+                lead.direction = 4
+            elif event.key == pygame.K_UP:
+                lead.direction = 8
+            elif event.key == pygame.K_RIGHT:
+                lead.direction = 12
+    key_press = pygame.key.get_pressed()
+    # 判断是否持续按压
+    if key_press[pygame.K_DOWN]:
+        lead.is_continued = 1
+    elif key_press[pygame.K_LEFT]:
+        lead.is_continued = 1
+    elif key_press[pygame.K_UP]:
+        lead.is_continued = 1
+    elif key_press[pygame.K_RIGHT]:
+        lead.is_continued = 1
+    else:
+        lead.is_continued = 0
 
     screen.fill(game_background)
     screen.blit(bgi.images[0], pos)

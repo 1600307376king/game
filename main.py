@@ -8,38 +8,64 @@ game_background = green
 
 
 # 主角
-class Lead(object):
+class Lead(pygame.sprite.Sprite):
 
     def __init__(self):
-        self.images = [pygame.image.load(IMAGE_PATH + 'lead/9.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/10.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/11.png'),
-                       pygame.image.load(IMAGE_PATH + 'lead/12.png')]
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.image.load(IMAGE_PATH + 'lead/1.png').convert_alpha()
+                       # pygame.image.load(IMAGE_PATH + 'lead/2.png'),
+                       # pygame.image.load(IMAGE_PATH + 'lead/3.png'),
+                       # pygame.image.load(IMAGE_PATH + 'lead/4.png')]
 
-        self.image_width, self.image_height = self.images[0].get_rect()[2:]
+        # self.image_width, self.image_height = self.images[0].get_rect()[2:]
+        #
+        # self.position_x = (WIDTH - self.image_width) / 2
+        # self.position_y = (HEIGHT - self.image_height) / 2
+        # self.walk_frequency = 10  # 每10帧刷新动图
+        # self.left_move = 0  # 横向移动
+        # self.up_move = 0  # 纵向移动速度
+        # self.is_walk = False  # 是否走路
+        # self.walk_speed = 2  # 走路速度
+        # self.is_run = False  # 是否跑步
+        # self.run_speed = 0  # 跑步速度
 
+        self.rect = self.image.get_rect()
+        self.image_width, self.image_height = self.rect[2:]
         self.position_x = (WIDTH - self.image_width) / 2
         self.position_y = (HEIGHT - self.image_height) / 2
-        self.walk_frequency = 10  # 每10帧刷新动图
-        self.left_move = 0  # 横向移动
-        self.up_move = 0  # 纵向移动速度
-        self.is_walk = False  # 是否走路
-        self.walk_speed = 2  # 走路速度
-        self.is_run = False  # 是否跑步
-        self.run_speed = 0  # 跑步速度
+        self.walk_speed = 5
 
-    def get_position(self, i=0):
-        return self.images[i].get_rect(left=self.position_x, top=self.position_y)
+    def move_up(self):
+        if self.rect.top > 0:
+            self.rect.top -= self.walk_speed
 
-    def lead_move(self):
-        pass
+        else:
+            self.rect.top = 0
+
+    def move_down(self):
+        if self.rect.bottom < HEIGHT:
+            self.rect.top += self.walk_speed
+        else:
+            self.rect.bottom = HEIGHT
+
+    def move_left(self):
+        if self.rect.left > 0:
+            self.rect.left -= self.walk_speed
+        else:
+            self.rect.left = 0
+
+    def move_right(self):
+        if self.rect.right < WIDTH:
+            self.rect.right += self.walk_speed
+        else:
+            self.rect.right = WIDTH
 
 
 # 背景
 class BackgroundImage(object):
 
     def __init__(self):
-        self.images = [pygame.image.load(IMAGE_PATH + 'background/game_bg.png')]
+        self.images = [pygame.image.load(IMAGE_PATH + 'background/bg.png')]
         self.image_width, self.image_height = self.images[0].get_rect()[2:]
 
         self.position_x = (WIDTH - self.image_width) / 2
@@ -66,47 +92,21 @@ while True:
     clock.tick(60)  # 每秒60次
 
     for event in pygame.event.get():
-        key_press = pygame.key.get_pressed()
+
         if event.type == pygame.QUIT:
             sys.exit()
-        if event.type != pygame.KEYDOWN:
-            bgi.up_move = 0
-            bgi.left_move = 0
-            bgi.is_walk = False
-            k = 0
-        if key_press[pygame.K_UP]:
-            bgi.up_move = 1
-            bgi.is_walk = True
+    key_press = pygame.key.get_pressed()
+    if key_press[pygame.K_UP]:
+        lead.move_up()
+    if key_press[pygame.K_RIGHT]:
+        lead.move_right()
+    if key_press[pygame.K_DOWN]:
+        lead.move_down()
+    if key_press[pygame.K_LEFT]:
+        lead.move_left()
 
-        if key_press[pygame.K_DOWN]:
-            bgi.up_move = -1
-            bgi.is_walk = k
-            bgi.is_walk = True
-
-        if key_press[pygame.K_RIGHT]:
-            bgi.left_move = -1
-            bgi.is_walk = k
-            bgi.is_walk = True
-
-        if key_press[pygame.K_LEFT]:
-            bgi.left_move = 1
-            bgi.is_walk = k
-            bgi.is_walk = True
-
-    pos = pos.move([lead.walk_speed * bgi.left_move, lead.walk_speed * bgi.up_move])
-    # if ball_img_rect.left < 0 or ball_img_rect.right > 640 \
-    #         or ball_img_rect.top < 0 or ball_img_rect.bottom > 480:
-    #     speed = [0, 0]
-
-    screen.fill(game_background)
     screen.blit(bgi.images[0], pos)
-    screen.blit(lead.images[k], lead.get_position())
-    if bgi.is_walk:
-        if n % 10 == 0:
-            k += 1
-            if k > 3:
-                k = 0
-    n += 1
+    screen.blit(lead.image, lead.rect)
 
     pygame.display.flip()
 
