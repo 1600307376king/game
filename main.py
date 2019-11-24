@@ -35,10 +35,19 @@ class Lead(pygame.sprite.Sprite):
         self.position_y = (HEIGHT - self.image_height) / 2
         self.walk_speed = 5
 
+    def __call__(self, direction):
+        if direction == 'left':
+            self.move_left()
+        if direction == 'right':
+            self.move_right()
+        if direction == 'up':
+            self.move_up()
+        if direction == 'down':
+            self.move_down()
+
     def move_up(self):
         if self.rect.top > 0:
             self.rect.top -= self.walk_speed
-
         else:
             self.rect.top = 0
 
@@ -97,13 +106,13 @@ while True:
             sys.exit()
     key_press = pygame.key.get_pressed()
     if key_press[pygame.K_UP]:
-        lead.move_up()
+        lead('up')
     if key_press[pygame.K_RIGHT]:
-        lead.move_right()
+        lead('right')
     if key_press[pygame.K_DOWN]:
-        lead.move_down()
+        lead('down')
     if key_press[pygame.K_LEFT]:
-        lead.move_left()
+        lead('left')
 
     screen.blit(bgi.images[0], pos)
     screen.blit(lead.image, lead.rect)

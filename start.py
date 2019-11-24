@@ -18,6 +18,9 @@ class BackgroundImage(object):
     def get_position(self, i=0):
         return self.images[i].get_rect(left=self.position_x, top=self.position_y)
 
+    def __call__(self, x, y):
+        self.position_x = x
+        self.position_y = y
 
 pygame.init()
 
